@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="jt-manage" version="2.5">
+	<display-name>jt-web</display-name>
+	
+	<!--
+		写该标签 定义了参数和值
+		监听器的调用方式:
+			当servlet启动时,前端控制器通过配置文件需要实例化Controllr
+			当Controller内部自动注入对象时,则监听器监听到对象需要注入,则启动
+			spring容器.到此为止,整个spring/springMVC容器启动成功.
+	  -->
+	<!-- <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring/applicationContext*.xml</param-value>
+	</context-param> -->
+	<!--Spring的ApplicationContext 载入 -->
+	<!-- <listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener> -->
+
+	<!-- 编码过滤器，以UTF8编码 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 配置SpringMVC -->
+	<servlet>
+		<servlet-name>springmvc-web</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 指定SpringMVC配置文件 -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:/spring/applicationContext*.xml</param-value>
+		</init-param>
+		<!--必须添加  -->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!--
+		*.html  拦截以.html结尾的请求  伪静态技术
+		/service/*   以service开头的全部请求.
+	  -->
+	<servlet-mapping>
+		<servlet-name>springmvc-web</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	<!-- 防止springMVC框架返回json时和html冲突报 406 错误 -->
+	<servlet-mapping>
+		<servlet-name>springmvc-web</servlet-name>
+		<url-pattern>/service/*</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+</web-app>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JSONP测试</title>
+<script type="text/javascript" src="http://manage.jt.com/js/jquery-easyui-1.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		
+		/*jQuery中ajax的写法
+			$.get()
+			$.post()
+			$.getJSON()
+			$.ajax();  特点更加的灵活
+		*/
+		alert("测试访问开始!!!!!")
+		
+		$.ajax({
+			url:"http://manage.jt.com/web/testJSONP",
+			type:"get",
+			dataType:"jsonp",	   //返回值的类型 JSONP必须添加否则不能回调 函数
+			//jsonp: "1803",   //指定参数名称
+			//jsonpCallback: "hello",  //指定回调函数名称
+			success:function (data){
+				alert(data.id);
+				alert(data.title);
+				//转化为字符串使用
+				//var obj = eval("("+data+")");
+				//alert(obj.name);
+			}	
+		});	
+	})
+</script>
+</head>
+<body>
+	<h1>JSON跨域请求测试</h1>
+</body>
+</html>

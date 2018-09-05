@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="jt-sso" version="2.5">
+	<display-name>jt-sso</display-name>
+	
+	<!--定义前端控制器  servlet第一次请求时才会加载启动   懒加载的方式 -->
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<!--扫描全部以applicationContext开通的配置文件  -->
+			<param-value>classpath:/spring/applicationContext*.xml</param-value>
+		</init-param>
+		<!--让servlet第一个加载  -->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!--请求路径
+		1.后缀型路径
+			*.do  *.action  *.html *.lyj
+		2.前缀型路径
+			/service/
+			要求请求必须以/service开头      index.jsp 404
+			
+			/表示拦截所有请求和静态资源 不拦截动态资源
+			
+			restFul结构 请求的格式
+		3.全路径型
+			/service/*.action
+			
+	  -->
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!--定义POST乱码解决  -->
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<!--定义初始化参数  -->
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>characterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<!--定义默认访问页  -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

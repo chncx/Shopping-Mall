@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 1.全局配置：驼峰规则；禁用二级缓存redis -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="cacheEnabled" value="false"/>
+	</settings>
+	
+	<!-- 2.mybatis 插件配置，通用Mapper基于拦截器 -->
+	<plugins>
+		<!-- 分页插件：com.github.pagehelper为PageHelper类所在包名 -->
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			<!-- 方言 -->
+			<property name="dialect" value="mysql" />
+			<!-- 该参数默认为false -->
+			<!-- 设置为true时，使用RowBounds分页会进行count查询，查询数据总条数 -->
+			<property name="rowBoundsWithCount" value="true" />
+		</plugin>
+			
+		<plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
+			<!-- 自增策略是哪个数据库 -->
+			<property name="IDENTITY" value="MYSQL"/>
+			<!-- 实现扩展基础类 -->
+			<property name="mappers" value="com.jt.common.mapper.SysMapper"/>
+		</plugin>
+	</plugins>
+</configuration>  

@@ -1,0 +1,136 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	
+	<!--实现spring管理redis/jedis  
+		Jedis jedis = new Jedis("192.168.126.166",6379);
+		jedis.set("name", "tomcat猫");
+		System.out.println("获取redis数据:"+jedis.get("name"));
+	-->
+	<!-- <bean id="jedis" class="redis.clients.jedis.Jedis">
+		<constructor-arg name="host" value="${redis.host}"/>
+		<constructor-arg name="port" value="${redis.port}"/>
+	</bean> -->
+	
+	<!--配置redis分片 
+		JedisPoolConfig poolConfig = new JedisPoolConfig();
+		poolConfig.setMaxTotal(1000);
+		poolConfig.setMaxIdle(200);
+		poolConfig.setMinIdle(10);
+		poolConfig.setTestOnBorrow(true); //链接前校验
+		
+		//定义jedis分片的节点信息
+		List<JedisShardInfo> shards = 
+				new ArrayList<JedisShardInfo>();
+		shards.add(new JedisShardInfo("192.168.126.166", 6379));
+		shards.add(new JedisShardInfo("192.168.126.166", 6380));
+		shards.add(new JedisShardInfo("192.168.126.166", 6381));
+		
+		ShardedJedisPool jedisPool = 
+				new ShardedJedisPool(poolConfig, shards);
+		
+		ShardedJedis shardedJedis = jedisPool.getResource();
+		
+		shardedJedis.set("name", "我是redis分片");
+		System.out.println
+		("获取redis信息:"+shardedJedis.get("name"));
+	
+	
+	 -->
+	
+	<!-- <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		调用set注入方式 
+		<property name="maxTotal" value="${redis.maxTotal}"/>
+		<property name="maxIdle" value="${redis.maxIdle}"/>
+	</bean>
+	
+	定义redis分片节点信息 
+	<bean id="info1" class="redis.clients.jedis.JedisShardInfo">
+		<constructor-arg name="host" value="${redis.host}"/>
+		<constructor-arg name="port" value="${redis.port1}"/>
+	</bean>
+	
+	<bean id="info2" class="redis.clients.jedis.JedisShardInfo">
+		<constructor-arg name="host" value="${redis.host}"/>
+		<constructor-arg name="port" value="${redis.port2}"/>
+	</bean>
+	
+	<bean id="info3" class="redis.clients.jedis.JedisShardInfo">
+		<constructor-arg name="host" value="${redis.host}"/>
+		<constructor-arg name="port" value="${redis.port3}"/>
+	</bean>
+	
+	创建分片的连接池对象 
+	<bean id="jedisPool" class="redis.clients.jedis.ShardedJedisPool">
+		<constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
+		<constructor-arg name="shards">
+			<list>
+				<ref bean="info1"/>
+				<ref bean="info2"/>
+				<ref bean="info3"/>
+			</list>
+		</constructor-arg>
+	</bean> -->
+	
+	<!--spring整合哨兵
+		Set<String> sentinels = new HashSet<String>();
+		//格式演示
+		//System.out.println
+		//(new HostAndPort("192.168.126.166", 26379).toString());
+		sentinels.add("192.168.126.166:26379");
+		sentinels.add("192.168.126.166:26380");
+		sentinels.add("192.168.126.166:26381");
+		//定义哨兵的连接池
+		JedisSentinelPool sentinelPool =
+				new JedisSentinelPool("mymaster", sentinels);
+		Jedis jedis = sentinelPool.getResource();
+		jedis.set("name", "我是哨兵的redis");
+		System.out.println("获取redis数据:"+jedis.get("name"));
+	 -->
+	 
+	<!--  <bean id="sentinelPool" 
+	 class="redis.clients.jedis.JedisSentinelPool">
+	 	<constructor-arg name="masterName" 
+	 	value="${redis.sentinel.mastername}"/>
+	 	<constructor-arg name="sentinels">
+	 		<set>
+	 			<value>${redis.sentinel.a}</value>
+	 			<value>${redis.sentinel.b}</value>
+	 			<value>${redis.sentinel.c}</value>
+	 		</set>
+	 	</constructor-arg>
+	 </bean> -->
+	 
+	<!-- jedis 配置-->  
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig" >  
+        <!--最大空闲数-->  
+        <property name="maxIdle" value="${redis.maxIdle}" />  
+        <!--最大建立连接等待时间-->  
+        <property name="maxWaitMillis" value="${redis.maxWait}" />  
+        <!--是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个-->  
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />  
+        <property name="maxTotal" value="${redis.maxTotal}" />  
+        <property name="minIdle" value="${redis.minIdle}" />  
+    </bean>
+    
+     <!--通过工厂模式获取数据  -->
+    <bean id="jedisCluster" class="com.jt.common.factory.JedisClusterFactory">
+    	<!--引入配置文件源文件  -->
+    	<property name="propertySource">
+    		<value>classpath:/property/redis.properties</value>
+    	</property>
+    	<!--引入池配置文件  -->
+    	<property name="poolConfig" ref="poolConfig"/>
+    	<!--添加配置前缀-->
+    	<property name="redisNodePrefix" value="redis.cluster"/>
+    </bean>
+</beans>

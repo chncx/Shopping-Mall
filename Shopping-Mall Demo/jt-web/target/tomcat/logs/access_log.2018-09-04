@@ -1,0 +1,12 @@
+127.0.0.1 - - [04/Sep/2018:08:23:32 +0800] "GET /items/1474391964.html HTTP/1.0" 200 38861 http-bio-8092-exec-5 127
+0:0:0:0:0:0:0:1 - - [04/Sep/2018:08:23:32 +0800] "GET /images/jt-logo.png HTTP/1.0" 304 - http-bio-8092-exec-10 4
+127.0.0.1 - - [04/Sep/2018:08:23:32 +0800] "GET /js/jt.js HTTP/1.0" 304 - http-bio-8092-exec-4 1
+0:0:0:0:0:0:0:1 - - [04/Sep/2018:08:24:11 +0800] "GET /user/logout.html HTTP/1.0" 302 - http-bio-8092-exec-3 5
+127.0.0.1 - - [04/Sep/2018:08:24:11 +0800] "GET /index.html HTTP/1.0" 200 107066 http-bio-8092-exec-1 11
+0:0:0:0:0:0:0:1 - - [04/Sep/2018:08:24:14 +0800] "GET /user/login.html HTTP/1.0" 200 12393 http-bio-8092-exec-7 4
+127.0.0.1 - - [04/Sep/2018:08:24:19 +0800] "POST /service/user/doLogin?r=0.9453514633195812 HTTP/1.0" 200 47 http-bio-8092-exec-6 114
+0:0:0:0:0:0:0:1 - - [04/Sep/2018:08:24:19 +0800] "GET /index.html HTTP/1.0" 200 107066 http-bio-8092-exec-2 9
+127.0.0.1 - - [04/Sep/2018:09:14:26 +0800] "GET /index.html HTTP/1.0" 200 107066 http-bio-8092-exec-8 39
+0:0:0:0:0:0:0:1 - - [04/Sep/2018:09:14:28 +0800] "GET /user/logout.html HTTP/1.0" 302 - http-bio-8092-exec-9 6
+127.0.0.1 - - [04/Sep/2018:09:14:28 +0800] "GET /index.html HTTP/1.0" 200 107066 http-bio-8092-exec-5 8
+0:0:0:0:0:0:0:1 - - [04/Sep/2018:09:14:30 +0800] "GET /index.html HTTP/1.0" 200 107066 http-bio-8092-exec-10 8

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.order.mapper.OrderMapper" >
+  <!-- 实现订单超时的业务
+  <![CDATA[]]> -->
+  	
+  <update id="updateStatus">
+  
+  	update tb_order set status=6,updated=now() where
+  	status=1 and created &lt; #{timeOut}
+  </update>
+  
+  
+</mapper>

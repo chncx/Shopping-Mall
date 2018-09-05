@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jt.manage.mapper.ItemMapper">
+	
+	<!--
+		1.mybatis中结尾不要加;号,否则oracle解析时报错
+		2.所有的sql都必须小写. 
+			windows不区分大小写.
+			Linux 严格区分大小写.
+			 	select * from  DEPT where id = 1
+			ctrl + shift +y 全部小写
+	  -->
+	
+	<select id="findItemAll" resultType="Item">
+		select * from  tb_item order by updated desc
+	</select>
+	
+	<!--实现商品状态修改
+		核心:mybatis只支持单值传递
+		collection="" 
+		只需要记住三种情况
+			1.Map中的key
+			2.list  参数类型为List集合
+			3.array 参数类型为Array数组
+			
+	    2.小知识点.Mybatis中参数获取时,名称可以是任意的.但是一般都是见名知意.
+	  -->
+	<update id="updateStatus">
+		update tb_item set status = #{status},updated = now() where 
+		id in  (
+		<foreach collection="ids" item="id" separator=",">
+			#{id}
+		</foreach>
+		)	
+	</update>
+	
+	
+</mapper>  
